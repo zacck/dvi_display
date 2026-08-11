@@ -1,5 +1,5 @@
 set mode "JTAG"
-set device_name xc7a35t_0
+set device_name xc7a100t_0
 #set cfgmem_part_name
 set outputDir obj
 

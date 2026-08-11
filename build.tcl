@@ -9,7 +9,7 @@ set_param general.maxThreads 6
 # cpg236 refers to its package it is in
 # refers to the "speed grade" of the chip
 
-set partNum xc7a35tcpg236-1
+set partNum xc7a100tcsg324-1
 set outputDir obj
 file mkdir $outputDir
 set files [glob -nocomplain "$outputDir/*"]
