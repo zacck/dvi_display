@@ -1,22 +1,14 @@
-## Template Project for TCL Flow with Vivado and Basys 3
+## DVI IP
 
-This decouples on from the Vivado GUI flow, and saves some time during build and flashing.
-
-Note:
-1. Your top level module will need to be labelled top_level, this can always be changed
-2. Built for the Artix-7 on the Basys3  can be changed 
-
-Structure
-
-### Directories
-- hdl: All HDL files go here 
-- obj: This is output for the builds 
-- sim: our simulation, C++ and Python files go here 
-- xdc: Constraints file(s) goes here 
+Initially this was simple and thats perhaps my day job is in video and I have rehearsed this over and over.
+Also perhaps the fact that I have worked on a VGA IP before albeit this one seems more concrete and understandable to me.
 
 
-### Files 
-- build.tcl: TCL script to build a bitfile from our source 
-- program_flash.tcl: TCL script to program our bitfile to the device 
-- sim/test_counter.py :  A cocotb test script for a simple module this, really just shows setup
-- hdl/counter.sv : A simple counter module to exercise the test module
+The day did not end as simply at it began, the tm_choice module is the shortest module I have written yet it took me quite a few 
+hours. 
+
+1. System verilog is not programming, you do not have time as a line to use for computations, these are hardware signals not 
+programming variables.
+2. When using combinational concepts please stick to combinational items, this includes not using logic or reg and using wires only 
+3. Loops especially in combinational code will not work how you expect.
+4. Don't be clever, do it the way they do it not how you do it.
