@@ -1,3 +1,4 @@
+`default_nettype none
 module video_sig_gen
 #(
 	parameter ACTIVE_H_PIXELS = 1280,
@@ -56,4 +57,4 @@ module video_sig_gen
 	/* verilator lint_on UNSIGNED */
 	/* verilator lint_on WIDTHEXPAND */
 endmodule
-
+`default_nettype wire
