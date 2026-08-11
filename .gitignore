@@ -1,0 +1,6 @@
+obj/*.rpt
+obj/*.bit
+sim_build/
+sim/__pycache__/
+.Xil
+clockInfo.txt
