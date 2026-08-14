@@ -10,7 +10,7 @@ module tmds_encoder(
 
 	logic [8:0] q_m; 
 	logic [4:0] tally;
-	wire [9:0] q_m_out;
+	logic [9:0] q_m_out;
 
 	tm_choice mtm(
 		.din(video_data),
