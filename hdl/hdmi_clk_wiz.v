@@ -1,11 +1,11 @@
-`default_nettype none
+`timescale 1ps/1ps
 module hdmi_clk_wiz_720p(
-	output wire clk_pixel, 
-	output wire clk_tmds,
+	output clk_pixel,
+	output clk_tmds,
 	//CSR 
-	input wire reset, 
-	output wire locked,
-	input wire clk_ref
+	input reset, 
+	output locked,
+	input clk_ref
 );
 	wire clk_ref_clk_wiz_0;
 	wire clk_in2_clk_wiz_0;
@@ -57,6 +57,10 @@ module hdmi_clk_wiz_720p(
 		.CLKOUT0_DIVIDE_F(10.000),
 		.CLKOUT0_PHASE(0.000),
 		.CLKOUT0_DUTY_CYCLE(0.500),
+		.CLKOUT0_USE_FINE_PS("FALSE"), 
+		.CLKOUT1_DIVIDE(2),
+		.CLKOUT1_PHASE(0.000),
+		.CLKOUT1_DUTY_CYCLE(0.500), 
 		.CLKOUT1_USE_FINE_PS("FALSE"),
 		.CLKIN1_PERIOD(10.000)
 	) mmcm_adv_inst (
@@ -119,14 +123,5 @@ module hdmi_clk_wiz_720p(
 		.O(clk_tmds),
 		.I(clk_tmds_clk_wiz_0)
 	);
-	
-
-
-
-
-
-
-
 
 endmodule
-`default_nettype wire
