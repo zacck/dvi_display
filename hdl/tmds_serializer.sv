@@ -42,7 +42,7 @@ module tmds_serializer(
 		.D7(tmds_in[6]),
 		.D8(tmds_in[7]),
 		.TCE(1'b0),
-		.OCE(1'b0),
+		.OCE(1'b1),
 		.TBYTEIN(1'b0),
 		.RST(rst || pwup_rst),
 		.SHIFTIN1(linker[0]),
