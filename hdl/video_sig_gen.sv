@@ -23,7 +23,7 @@ module video_sig_gen
 	output logic [5:0] frame_count
 );
 	localparam TOTAL_LINES = (ACTIVE_LINES + V_FRONT_PORCH + V_SYNC_WIDTH + V_BACK_PORCH);
-	localparam TOTAL_PIXELS = (ACTIVE_H_PIXELS + H_FRONT_PORCH + H_SYNC_WIDTH + H_BACK_PORCH) *  TOTAL_LINES;
+	localparam TOTAL_PIXELS = (ACTIVE_H_PIXELS + H_FRONT_PORCH + H_SYNC_WIDTH + H_BACK_PORCH);
 
 	always_ff @(posedge pixel_clk) begin 
 		if(rst) begin 
