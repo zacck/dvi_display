@@ -20,7 +20,7 @@ a standard. Do it on paper, confirm some conditions from GTKWAVE on paper. It he
 ## Initial Learnings before Testing 
 - Differential pins are routed differently and you will need to find them in the board schematic DUH!
 - TMDS is both a protocol and has its own IO standard, opens the door to LVDS 
-- We are using SERDES wow! all of a sudden! so basically a really first pwm style Deserialiser?
+- We are using SERDES wow! all of a sudden! so basically a really fast pwm style Deserialiser?
 - I should likely move the SERDES and Clocking modules to System Verilog so I have the advantage of logic type 
 
 
