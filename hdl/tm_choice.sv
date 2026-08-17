@@ -8,7 +8,7 @@ module tm_choice (
 	//assign count = din[0] + din[1] + din[2] + din[3] + din[4] + din[5] + din[6] + din[7]; 
 	assign count = $countones(din);
 	always_comb begin
-		if((count == 4) || ((count > 4)  && (din[0] == 0))) begin
+		if((count > 4) || ((count == 4)  && (din[0] == 0))) begin
 			q_m[0] = din[0];
 			q_m[1] = ~(din[1] ^ q_m[0]);
 			q_m[2] = ~(din[2] ^ q_m[1]);

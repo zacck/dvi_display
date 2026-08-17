@@ -24,6 +24,12 @@ async def test_tm_choice_one(dut):
     dut.din.value = 0xFE
     await Timer(5, "ns")
     assert dut.q_m.value == 0x00
+    dut._log.info("Starting Option 2")
+    dut.din.value = 0x0F
+    await Timer(5, "ns")
+    assert dut.q_m.value == 0x105
+   
+
    
 def tm_choice_runner(): 
     """ Simulate the tm_choice """
