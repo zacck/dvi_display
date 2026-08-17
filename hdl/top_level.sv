@@ -51,13 +51,16 @@ module top_level(
 		.frame_count(frame_count)
 	); 
 
-	logic [7:0] red, green, blue;
-	logic [7:0] tp_r, tp_g, tp_b; 
-	
-	assign tp_r = 8'hDA; 
-	assign tp_g = 8'h6A;
-	assign tp_b = 8'h4C;
 
+	logic [7:0] red, green, blue;
+	//logic [7:0] tp_r, tp_g, tp_b; 
+	
+	assign red = 8'hDA; 
+	assign green = 8'h6A;
+	assign blue = 8'h4C;
+
+
+	/*
 	always_comb begin 
 		if(~sw[2])begin 
 			red = tp_r; 
@@ -65,6 +68,7 @@ module top_level(
 			blue = tp_b; 
 		end
 	end 
+	*/
 
 	logic [9:0] tmds_10b [0:2]; 
 	logic tmds_signal[2:0];
@@ -83,7 +87,7 @@ module top_level(
 		.clk(clk_pixel),
 		.rst(sys_rst),
 		.video_data(green),
-		.control(),
+		.control(2'b0),
 		.video_enable(active_draw), 
 		.tmds(tmds_10b[1])
 	);
