@@ -114,7 +114,7 @@ module tmds_encoder(
 		end else begin
 			tmds <= q_m_out; 
 			case(state)
-				TMDS1: tally <= tally + (2 * {4'b0, ~q_m[8]}) + (ones -zeros);
+				TMDS1: tally <= tally - (2 * {4'b0, ~q_m[8]}) + (ones -zeros);
 				TMDS2: tally <= tally + (2 * {4'b0, q_m[8]}) + (zeros - ones);
 				TMDS3: tally <= tally + (zeros - ones);
 				TMDS4: tally <= tally + (ones - zeros);
