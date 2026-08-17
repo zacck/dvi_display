@@ -31,14 +31,18 @@ module video_sig_gen
 			v_count <= 0;
 			frame_count <= 0;
 		/* verilator lint_off WIDTHEXPAND */
-		end else if((v_count == TOTAL_LINES - 1) && (h_count == (ACTIVE_H_PIXELS - 1 + H_FRONT_PORCH + H_SYNC_WIDTH + H_BACK_PORCH))) 
-		begin
+		end else if((v_count == ACTIVE_LINES - 1) && (h_count == ACTIVE_H_PIXELS - 1)) begin
 			new_frame <= 1;
+			frame_count <= (frame_count == FPS - 1) ? 0 : frame_count + 1;
+			h_count <= h_count + 1;
+		end else if((v_count == TOTAL_LINES - 1) && (h_count == TOTAL_PIXELS - 1)) 
+		begin
+			new_frame <= 0;
 			h_count <= 0; 
 			v_count <= 0;
-			frame_count <= (frame_count == FPS - 1) ? 0 : frame_count + 1;
 		end else if (h_count == ((ACTIVE_H_PIXELS - 1) + H_FRONT_PORCH + H_SYNC_WIDTH + H_BACK_PORCH)) begin
 			/* verilator lint_on WIDTHEXPAND */
+			new_frame <= 0;
 			h_count <= 0; 
 			v_count <= v_count + 1; 
 		end else begin 
@@ -53,7 +57,7 @@ module video_sig_gen
 	assign v_sync = ((v_count > (ACTIVE_LINES - 1 + V_FRONT_PORCH)) && (v_count < (ACTIVE_LINES - 1 + V_FRONT_PORCH + V_BACK_PORCH)));
 
 	/* verilator lint_off UNSIGNED */
-	assign active_draw = ((h_count >= 0) && (h_count <= ACTIVE_H_PIXELS - 1) && (v_count >= 0) && (v_count <= ACTIVE_LINES - 1)); 
+	assign active_draw = (!rst && (h_count >= 0) && (h_count <= ACTIVE_H_PIXELS - 1) && (v_count >= 0) && (v_count <= ACTIVE_LINES - 1)); 
 	/* verilator lint_on UNSIGNED */
 	/* verilator lint_on WIDTHEXPAND */
 endmodule
