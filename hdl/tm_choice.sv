@@ -15,7 +15,7 @@ module tm_choice (
 			q_m[3] = ~(din[3] ^ q_m[2]);
 			q_m[4] = ~(din[4] ^ q_m[3]);
 			q_m[5] = ~(din[5] ^ q_m[4]);
-			q_m[6] = ~(din[7] ^ q_m[5]);
+			q_m[6] = ~(din[6] ^ q_m[5]);
 			q_m[7] = ~(din[7] ^ q_m[6]);
 			q_m[8] = 0;
 
@@ -26,7 +26,7 @@ module tm_choice (
 			q_m[3] = (din[3] ^ q_m[2]);
 			q_m[4] = (din[4] ^ q_m[3]);
 			q_m[5] = (din[5] ^ q_m[4]);
-			q_m[6] = (din[7] ^ q_m[5]);
+			q_m[6] = (din[6] ^ q_m[5]);
 			q_m[7] = (din[7] ^ q_m[6]);
 			q_m[8] = 1;
 		end

@@ -8,11 +8,56 @@ from pathlib import Path
 from cocotb.clock import Clock 
 from cocotb.triggers import Timer, ClockCycles, RisingEdge, FallingEdge
 from cocotb.runner import get_runner
+from random import getrandbits
 test_file = os.path.basename(__file__).replace(".py", "")
+
+async def drive_and_assert(dut, video_byte):
+    print(f"Driving for {video_byte:b}")
+    ones = video_byte.bit_count()
+    zeros = 8 - ones
+
+    result = 0
+
+    # set bit 0 of result to bit 0 of video byte
+    zeroeth = (video_byte & (1 << 0)) >> 0
+    result = ((zeroeth << 0) | result)
+
+    i = 1
+    if((ones > 4) or (ones == 4 and not(video_byte & 1))):
+        while i < 9:
+            if(i == 8):
+                result = ((0 << i) | result)
+            else:
+                rith_min_1 = (result & (1 << (i - 1))) >> i - 1
+                vith = (video_byte & ( 1 << i)) >> i
+                res = ~(rith_min_1 ^ vith)
+                res = res &1
+                result = ((res << i) | result)
+            i +=1
+    else:
+        while i < 9:
+            if(i == 8):
+                result = ((1 << i) | result)
+            else:
+                rith_min_1 = (result & (1 << (i - 1))) >> i - 1
+                vith = (video_byte & ( 1 << i)) >> i
+                res = (rith_min_1 ^ vith) 
+                res = res &1
+                result = ((res << i) | result)
+            i +=1
+
+
+    dut.din.value = video_byte
+    await Timer(5, "ns")
+    assert dut.q_m.value == result
+
+
+
+
 
 @cocotb.test()
 async def test_tm_choice_one(dut):
-    """Is out tm choice correct"""
+    """Is our tm choice correct"""
     dut._log.info("Starting...")
     await Timer(5, "ns")
     dut._log.info("Starting Option 1")
@@ -20,15 +65,25 @@ async def test_tm_choice_one(dut):
     await Timer(5, "ns")
     assert dut.q_m.value == 0x1FF
     await Timer(5, "ns")
+    await drive_and_assert(dut, 0x01)
     dut._log.info("Starting Option 2")
     dut.din.value = 0xFE
     await Timer(5, "ns")
     assert dut.q_m.value == 0x00
-    dut._log.info("Starting Option 2")
+    await drive_and_assert(dut, 0xFE)
+    dut._log.info("Starting Option 3")
     dut.din.value = 0x0F
     await Timer(5, "ns")
     assert dut.q_m.value == 0x105
-   
+    dut._log.info("Starting Option 4")
+    dut.din.value = 0x6A
+    await Timer(5, "ns")
+    assert dut.q_m.value == 0x8C
+    await drive_and_assert(dut, 0x0F)
+    for u in range(1000):
+     await drive_and_assert(dut, getrandbits(8))
+
+
 
    
 def tm_choice_runner(): 
