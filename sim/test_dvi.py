@@ -25,26 +25,31 @@ async def test_dvi_signals(dut):
     dut._log.info("Setting Reset to 0")
     dut.rst.value = 0
     await RisingEdge(dut.new_frame)
-    assert dut.v_count.value == 0
-    assert dut.h_count.value == 0
-    await ClockCycles(dut.pixel_clk, ((dut.ACTIVE_H_PIXELS.value) + dut.H_FRONT_PORCH.value) + 1)
+    assert dut.v_count.value == dut.ACTIVE_LINES.value - 1 
+    assert dut.h_count.value == dut.ACTIVE_H_PIXELS.value
+    await ClockCycles(dut.pixel_clk, dut.H_FRONT_PORCH.value + 1)
     assert dut.h_sync.value == 1
     await ClockCycles(dut.pixel_clk, (dut.H_SYNC_WIDTH.value))
     await FallingEdge(dut.pixel_clk)
     assert dut.h_sync.value == 0
-    await RisingEdge(dut.new_frame)
-    await ClockCycles(dut.pixel_clk, (dut.ACTIVE_H_PIXELS.value + dut.H_FRONT_PORCH.value + 
-                                      dut.H_SYNC_WIDTH.value + dut.H_BACK_PORCH.value) +1)
+    await ClockCycles(dut.pixel_clk, dut.H_BACK_PORCH.value)
     assert dut.h_count.value == 0, "We have just crossed max horizontal we should be at 0"
-    assert dut.v_count.value == 1, "We are on the second line this should be 1"
     await RisingEdge(dut.new_frame)
-    line_width = dut.ACTIVE_H_PIXELS.value + dut.H_FRONT_PORCH.value + dut.H_SYNC_WIDTH.value + dut.H_BACK_PORCH.value
-    lines_to_sync = dut.ACTIVE_LINES.value + dut.V_FRONT_PORCH.value + 1
-    await ClockCycles(dut.pixel_clk, (line_width * lines_to_sync))
-    assert dut.v_sync.value == 1
-    await ClockCycles(dut.pixel_clk, (line_width * dut.V_SYNC_WIDTH.value + 1 ))
+    await ClockCycles(dut.pixel_clk, (dut.TOTAL_PIXELS.value - dut.ACTIVE_H_PIXELS.value + 1))
+    clocks_to_v_sync = dut.TOTAL_PIXELS.value  * dut.V_FRONT_PORCH.value
+    await ClockCycles(dut.pixel_clk, clocks_to_v_sync)
+    assert dut.v_sync == 1
+    await RisingEdge(dut.new_frame)
+    await ClockCycles(dut.pixel_clk, (dut.TOTAL_PIXELS.value - dut.ACTIVE_H_PIXELS.value + 1))
+    clocks_to_v_sync_end = dut.TOTAL_PIXELS.value  * (dut.V_FRONT_PORCH.value + dut.V_SYNC_WIDTH.value + 1)
+    await ClockCycles(dut.pixel_clk, clocks_to_v_sync_end)
     assert dut.v_sync.value == 0
-    await ClockCycles(dut.pixel_clk, 2000)
+    await RisingEdge(dut.new_frame)
+    await ClockCycles(dut.pixel_clk, (dut.TOTAL_PIXELS.value - dut.ACTIVE_H_PIXELS.value + 1))
+    clocks_to_end = dut.TOTAL_PIXELS.value  * (dut.TOTAL_LINES.value - dut.ACTIVE_LINES.value)
+    await ClockCycles(dut.pixel_clk, clocks_to_end)
+    assert dut.v_count.value == 0, "We should be at line  0"
+    await ClockCycles(dut.pixel_clk, 3000)
 
 
 def vsg_runner():
