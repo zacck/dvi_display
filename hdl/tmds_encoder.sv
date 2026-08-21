@@ -70,7 +70,7 @@ module tmds_encoder(
 				state = TMDS3;
 			end
 		end else begin 
-			if(((tally > 15) && (zeros > ones)) || ((tally < 16)  && ones > zeros)) begin 
+			if(((tally > 5'd15) && (zeros > ones)) || ((tally < 5'd16)  && (ones > zeros))) begin 
 				q_m_out[9] = 1'b1; 
 				q_m_out[8] = q_m[8];
 				q_m_out[7] = ~q_m[7];
