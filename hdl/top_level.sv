@@ -9,7 +9,6 @@ module top_level(
 	output logic hdmi_clk_p, hdmi_clk_n
 	);
 
-	assign led = sw; 
 
 	logic sys_rst;
 	assign sys_rst = btn[0];
@@ -28,6 +27,8 @@ module top_level(
 		.clk_pixel(clk_pixel),
 		.clk_tmds(clk_5x)
 	);
+
+	assign led[0] = locked;
 
 	
 	logic [10:0] h_count; 
