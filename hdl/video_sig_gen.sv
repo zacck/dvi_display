@@ -52,9 +52,9 @@ module video_sig_gen
 	end
 
 	/* verilator lint_off WIDTHEXPAND */
-	assign h_sync = ((h_count > (ACTIVE_H_PIXELS - 1  + H_FRONT_PORCH))  && (h_count < (ACTIVE_H_PIXELS - 1 + H_FRONT_PORCH + H_BACK_PORCH)));
+	assign h_sync = ((h_count >= (ACTIVE_H_PIXELS + H_FRONT_PORCH))  && (h_count < (ACTIVE_H_PIXELS + H_FRONT_PORCH + H_SYNC_WIDTH)));
 
-	assign v_sync = ((v_count > (ACTIVE_LINES - 1 + V_FRONT_PORCH)) && (v_count < (ACTIVE_LINES - 1 + V_FRONT_PORCH + V_BACK_PORCH)));
+	assign v_sync = ((v_count >= (ACTIVE_LINES + V_FRONT_PORCH)) && (v_count < (ACTIVE_LINES + V_FRONT_PORCH + V_SYNC_WIDTH)));
 
 	/* verilator lint_off UNSIGNED */
 	assign active_draw = (!rst && (h_count >= 0) && (h_count <= ACTIVE_H_PIXELS - 1) && (v_count >= 0) && (v_count <= ACTIVE_LINES - 1)); 
