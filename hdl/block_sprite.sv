@@ -1,5 +1,5 @@
 `default_nettype none
-module block_sprit #(
+module block_sprite #(
 	parameter WIDTH = 128,
 	parameter HEIGHT = 128,
 	parameter COLOR = 24'hFF_FF_FF
