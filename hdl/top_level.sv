@@ -19,7 +19,7 @@ module top_level(
 	logic locked; 
 
 
-	//72 mhz clock
+	//74.2 mhz clock
 	hdmi_clk_wiz_720p mhdmicw (
 		.reset(0),
 		.locked(locked), 
@@ -56,12 +56,12 @@ module top_level(
 	logic [7:0] red, green, blue;
 	//logic [7:0] tp_r, tp_g, tp_b; 
 	
+	/*
 	assign red = 8'hDA; 
 	assign green = 8'h6A;
 	assign blue = 8'h4C;
 
 
-	/*
 	always_comb begin 
 		if(~sw[2])begin 
 			red = tp_r; 
@@ -70,6 +70,20 @@ module top_level(
 		end
 	end 
 	*/
+
+	pong my_pong(
+		.pixel_clk(clk_pixel), 
+		.rst(sys_rst), 
+		.control(btn[3:2]), 
+		.puck_speed(sw[15:12]),
+		.paddle_speed(sw[11:8]), 
+		.new_frame(new_frame),
+		.h_count(h_count), 
+		.v_count(v_count), 
+		.pixel_red(red), 
+		.pixel_green(green),
+		.pixel_blue(blue)
+	);
 
 	logic [9:0] tmds_10b [0:2]; 
 	logic tmds_signal[2:0];
